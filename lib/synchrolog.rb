@@ -1,5 +1,6 @@
 require 'synchrolog/version'
 require 'synchrolog/client'
+require 'synchrolog/middleware'
 
 require 'active_support/logger'
 require 'active_support/tagged_logging'

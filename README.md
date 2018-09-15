@@ -22,7 +22,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Run:
+
+    $ rails g synchrolog:install
+    
+or create file `config/initializers/synchrolog.rb` with the following content:
+```ruby
+SYNCHROLOG = Synchrolog.new('YOUR_API_KEY') 
+Rails.logger.extend(ActiveSupport::Logger.broadcast(SYNCHROLOG))
+```
+
+and add this line to `config/application.rb`:
+```ruby
+config.middleware.insert_after 'Rack::Runtime', 'Synchrolog::Middleware'
+```
 
 ## Development
 
