@@ -3,12 +3,12 @@ require 'synchrolog/client/http'
 
 module Synchrolog
   module Client
-    def self.new(api_key, opts)
-      opts['host'] = opts.key?('host') ? opts['host'] : 'https://input.synchrolog.com/v1/track-backend'
-      if /^https:\/\//.match(opts['host'])
-        Synchrolog::Client::HTTPS.new(api_key, opts)
+    def self.new(api_key, **args)
+      args[:host] ||= 'https://input.synchrolog.com'
+      if /^https:\/\//.match(args[:host])
+        Synchrolog::Client::HTTPS.new(api_key, args)
       else
-        Synchrolog::Client::HTTP.new(api_key, opts)
+        Synchrolog::Client::HTTP.new(api_key, args)
       end
     end
   end
