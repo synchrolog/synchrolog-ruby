@@ -29,7 +29,7 @@ Run:
 or create file `config/initializers/synchrolog.rb` with the following content:
 ```ruby
 SYNCHROLOG = Synchrolog.new('YOUR_API_KEY') 
-Rails.logger.extend(ActiveSupport::Logger.broadcast(SYNCHROLOG))
+Rails.logger.extend(ActiveSupport::Logger.broadcast(SYNCHROLOG.logger))
 ```
 
 and add this line to `config/application.rb`:
