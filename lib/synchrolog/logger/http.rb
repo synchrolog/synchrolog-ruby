@@ -1,9 +1,9 @@
-require 'net/https'
+require 'net/http'
 require 'uri'
 
 module Synchrolog
-  module Client
-    class HTTPS
+  module Logger
+    class HTTP
       def initialize(api_key, **args)
         @api_key = api_key
         @host = args[:host]
@@ -14,14 +14,12 @@ module Synchrolog
         json_headers = {'Authorization' => "Basic #{@api_key}", 'Content-Type' =>'application/json'}
         uri = URI.parse("#{@host}/v1/track-backend")
         http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-      	http.verify_mode = OpenSSL::SSL::VERIFY_NONE      
         http.post(uri.path, body(message).to_json, json_headers)
       end
 
       def body(message)
         {
-          event_type: 'track', 
+          event_type: 'log', 
           timestamp: message[:timestamp],
           anonymous_id: message[:anonymous_id],
           user_id: message[:user_id],

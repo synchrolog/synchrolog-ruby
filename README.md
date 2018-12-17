@@ -34,7 +34,7 @@ Rails.logger.extend(ActiveSupport::Logger.broadcast(SYNCHROLOG))
 
 and add this line to `config/application.rb`:
 ```ruby
-config.middleware.insert_after 'Rack::Runtime', 'Synchrolog::Middleware'
+config.middleware.insert_after 0, 'Synchrolog::Middleware'
 ```
 
 ## Development

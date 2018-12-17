@@ -17,8 +17,18 @@ module Synchrolog
         end
         anonymous_id = request.cookie_jar['synchrolog_anonymous_id']
         user_id = request.cookie_jar['synchrolog_user_id']
-        SYNCHROLOG.tagged("synchrolog_anonymous_id:#{anonymous_id}", "synchrolog_user_id:#{user_id}") do
-          @app.call(env)
+        SYNCHROLOG.logger.tagged("synchrolog_anonymous_id:#{anonymous_id}", "synchrolog_user_id:#{user_id}") do
+          begin
+            response = @app.call(env)      
+          rescue Error
+            raise # Don't capture Synchrolog errors
+          rescue Exception => exception
+            SYNCHROLOG.exception_logger.capture(response, exception, env, anonymous_id, user_id)
+            raise
+          end
+          exception = env['rack.exception'] || env['action_dispatch.exception']
+          SYNCHROLOG.exception_logger.capture(response, exception, env, anonymous_id, user_id) if exception
+          response
         end
       end
     end
