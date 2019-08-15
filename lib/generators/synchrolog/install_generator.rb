@@ -9,8 +9,8 @@ module Synchrolog
 
       def copy_initializer
         template "synchrolog.rb", "config/initializers/synchrolog.rb"
-        application "config.middleware.insert 0, 'Synchrolog::Middleware'"
-      end      
+        application "config.middleware.insert 0, Synchrolog::Middleware"
+      end
     end
   end
 end

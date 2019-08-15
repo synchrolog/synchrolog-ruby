@@ -25,16 +25,16 @@ Or install it yourself as:
 Run:
 
     $ rails g synchrolog:install
-    
+
 or create file `config/initializers/synchrolog.rb` with the following content:
 ```ruby
-SYNCHROLOG = Synchrolog.new('YOUR_API_KEY') 
+SYNCHROLOG = Synchrolog::Client.new('YOUR_API_KEY')
 Rails.logger.extend(ActiveSupport::Logger.broadcast(SYNCHROLOG.logger))
 ```
 
 and add this line to `config/application.rb`:
 ```ruby
-config.middleware.insert_after 0, 'Synchrolog::Middleware'
+config.middleware.insert_after 0, Synchrolog::Middleware
 ```
 
 ## Development
@@ -51,4 +51,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/synchr
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
