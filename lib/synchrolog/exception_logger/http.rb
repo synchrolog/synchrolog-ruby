@@ -8,7 +8,7 @@ module Synchrolog
         @api_key = api_key
         @host = args[:host]
       end
-      
+
       def capture(response, exception, env, anonymous_id, user_id)
         return unless anonymous_id
         json_headers = {'Authorization' => "Basic #{@api_key}", 'Content-Type' =>'application/json'}
@@ -19,8 +19,9 @@ module Synchrolog
 
       def body(response, exception, env, anonymous_id, user_id)
         status, headers, body = *response
+        error = exception.backtrace[0].split(':')
         return {
-          event_type: 'error', 
+          event_type: 'error',
           timestamp: Time.now.utc.strftime("%Y-%m-%dT%H:%M:%S.%3NZ"),
           anonymous_id: anonymous_id,
           user_id: user_id,
@@ -29,9 +30,12 @@ module Synchrolog
           error: {
             status: status.to_s,
             description: exception.to_s,
-            backtrace: exception.backtrace,
+            backtrace: exception.backtrace.join("\n"),
             ip_address: env['REMOTE_ADDR'],
-            user_agent: env['HTTP_USER_AGENT']
+            user_agent: env['HTTP_USER_AGENT'],
+            file_name: file_name = error[0],
+            file: File.read(error[0]),
+            line_number: error[1].to_i
           }
         }
       end
