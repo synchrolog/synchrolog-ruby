@@ -10,7 +10,7 @@ module Synchrolog
       end
 
       def write(message)
-        return unless message[:anonymous_id]
+        return unless message[:clip_id]
         json_headers = {'Authorization' => "Basic #{@api_key}", 'Content-Type' =>'application/json'}
         uri = URI.parse("#{@host}/v1/track-backend")
         http = Net::HTTP.new(uri.host, uri.port)
@@ -19,10 +19,9 @@ module Synchrolog
 
       def body(message)
         {
-          event_type: 'log', 
+          event_type: 'log',
           timestamp: message[:timestamp],
-          anonymous_id: message[:anonymous_id],
-          user_id: message[:user_id],
+          clip_id: message[:clip_id],
           source: 'backend',
           api_key: @api_key,
           log: message
