@@ -3,7 +3,7 @@ require 'synchrolog/exception_logger/http'
 
 module Synchrolog
   module ExceptionLogger
-    def self.new(api_key, **args)
+    def self.new(api_key, args = {})
       args[:host] ||= 'https://input.synchrolog.com'
       if /^https:\/\//.match(args[:host])
         Synchrolog::ExceptionLogger::HTTPS.new(api_key, args)

@@ -4,7 +4,7 @@ require 'uri'
 module Synchrolog
   module Logger
     class HTTPS
-      def initialize(api_key, **args)
+      def initialize(api_key, args = {})
         @api_key = api_key
         @host = args[:host]
       end
